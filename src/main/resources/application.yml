@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/estudos-spring
-    username: root
-    password: root
+    url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     testWhileIdle: true
     validationQuery: SELECT 1
     driver-class-name: org.mariadb.jdbc.Driver

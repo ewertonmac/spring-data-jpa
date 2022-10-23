@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    env_file: .env
+    environment:
+      - MARIADB_ROOT_PASSWORD=$ROOT_PASSWORD
+      - MARIADB_USER=$DB_USER
+      - MARIADB_PASSWORD=$DB_PASSWORD
+      - MARIADB_DATABASE=$MARIADB_DATABASE
+    ports:
+      - $MARIADB_LOCAL_PORT:$MARIADB_DOCKER_PORT
+    networks:
+      - api-network
+    volumes:
+      - /var/lib/mariadb
+
+networks:
+  api-network:
+    driver: bridge
