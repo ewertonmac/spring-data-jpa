@@ -22,6 +22,8 @@ public class RelatorioService {
         System.out.println("1 - Buscar funcionario por nome");
         System.out.println("2 - Buscar funcionario por nome, salario e data contratação");
         System.out.println("3 - Buscar funcionario por data contratação");
+        System.out.println("4 - Buscar funcionario por salario");
+
 
 
         int opcao = scanner.nextInt();
@@ -35,6 +37,9 @@ public class RelatorioService {
                 break;
             case 3 :
                 listarPorDataContratacao(scanner);
+                break;
+            case 4 :
+                listarFuncionarioSalario();
                 break;
             default :
                 break;
@@ -83,5 +88,12 @@ public class RelatorioService {
             resultado.forEach(System.out::println);
         }
         else System.out.println("Nenhum funcionario encontrado");
+    }
+
+    private void listarFuncionarioSalario(){
+        var funcionarios = repository.findFuncionarioSalario();
+        funcionarios.forEach(f ->
+                System.out.printf("ID: %s | Nome: %s | Salário: %s%n", f.getId(), f.getNome(), f.getSalario())
+        );
     }
 }

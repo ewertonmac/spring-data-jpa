@@ -1,6 +1,7 @@
 package br.com.ewerton.spring.data.repository;
 
 import br.com.ewerton.spring.data.domain.Funcionario;
+import br.com.ewerton.spring.data.domain.projecoes.FuncionarioProjecao;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -22,4 +23,7 @@ public interface FuncionarioRepository extends PagingAndSortingRepository<Funcio
     //Native QUery
     @Query(value = "SELECT * FROM funcionarios f WHERE f.data_contratacao >= :data ", nativeQuery = true)
     List<Funcionario> findDataContratacaoMaior(LocalDate data);
+
+    @Query(value = "SELECT f.id, f.nome, f.salario FROM funcionarios f", nativeQuery = true)
+    List<FuncionarioProjecao> findFuncionarioSalario();
 }
