@@ -5,6 +5,9 @@ import br.com.ewerton.spring.data.domain.Funcionario;
 import br.com.ewerton.spring.data.domain.UnidadeTrabalho;
 import br.com.ewerton.spring.data.repository.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,7 +34,7 @@ public class FuncionarioService {
         System.out.println("4 - deletar");
 
 
-        Integer opcao = scanner.nextInt();
+        int opcao = scanner.nextInt();
 
         switch (opcao){
             case 1 :
@@ -41,7 +44,7 @@ public class FuncionarioService {
                 atualizar(scanner);
                 break;
             case 3 :
-                listar();
+                listar(scanner);
                 break;
             case 4 :
                 deletar(scanner);
@@ -82,12 +85,12 @@ public class FuncionarioService {
     }
 
     private List<UnidadeTrabalho> incluirUnidades(Scanner scanner) {
-        Boolean isTrue = true;
+        boolean isTrue = true;
         List<UnidadeTrabalho> unidades = new ArrayList<>();
 
         while (isTrue){
             System.out.println("Digite o id da unidade (0 para sair)");
-            Long id = scanner.nextLong();
+            long id = scanner.nextLong();
             Optional<UnidadeTrabalho> unidadeTrabalhoOptional = unidadeTrabalhoService.buscarPorId(id);
 
             if(id != 0 && unidadeTrabalhoOptional.isPresent()){
@@ -132,9 +135,29 @@ public class FuncionarioService {
         return repository.findById(id);
     }
 
-    private void listar(){
-        var funcionarios = repository.findAll();
-        funcionarios.forEach(System.out::println);
+    private void listar(Scanner scanner){
+        var execucao = true;
+        Integer pageNumber = 0;
+        while (execucao){
+            pageNumber = Math.max(pageNumber - 1, 0);
+            Pageable pageable = PageRequest.of(pageNumber, 5, Sort.by(Sort.Direction.DESC, "nome"));
+            var page = repository.findAll(pageable);
+
+            System.out.println("Exibindo página: " + (page.getNumber() + 1)  + " de " + page.getTotalPages());
+            if(page.getTotalElements() == 0){
+                System.out.println("Nenhum elemento encontrado");
+                execucao = false;
+            }else {
+                System.out.println("Total de elementos: " + page.getTotalElements());
+                page.getContent().forEach(System.out::println);
+                System.out.println("Qual página você deseja vizualizar?  para voltar digite 0");
+                pageNumber = scanner.nextInt();
+            }
+
+            if(pageNumber.equals(0)){
+                execucao = false;
+            }
+        }
     }
     private void deletar(Scanner scanner){
         System.out.println("Informe o id do funcionario que deseja deletar");
