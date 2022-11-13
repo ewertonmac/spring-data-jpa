@@ -1,9 +1,6 @@
 package br.com.ewerton.spring.data;
 
-import br.com.ewerton.spring.data.service.CargoService;
-import br.com.ewerton.spring.data.service.FuncionarioService;
-import br.com.ewerton.spring.data.service.RelatorioService;
-import br.com.ewerton.spring.data.service.UnidadeTrabalhoService;
+import br.com.ewerton.spring.data.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +16,7 @@ public class SpringDataApplication implements CommandLineRunner {
 	private final UnidadeTrabalhoService unidadeTrabalhoService;
 	private final FuncionarioService funcionarioService;
 	private final RelatorioService relatorioService;
+	private final RelatorioDinamicoService relatorioDinamicoService;
 	private Boolean system = true;
 
 	public static void main(String[] args) {
@@ -34,7 +32,8 @@ public class SpringDataApplication implements CommandLineRunner {
 			System.out.println("1 - cargo");
 			System.out.println("2 - unidade");
 			System.out.println("3 - funcionario");
-			System.out.println("4 - Relatorio");
+			System.out.println("4 - relatório");
+			System.out.println("5 - relatório dinâmico");
 
 			int opcao = scanner.nextInt();
 
@@ -50,6 +49,10 @@ public class SpringDataApplication implements CommandLineRunner {
 					break;
 				case 4:
 					relatorioService.inicializar(scanner);
+					break;
+
+				case 5:
+					relatorioDinamicoService.inicializar(scanner);
 					break;
 				default:
 					system = false;

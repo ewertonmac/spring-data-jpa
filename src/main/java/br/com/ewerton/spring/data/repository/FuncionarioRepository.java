@@ -2,6 +2,7 @@ package br.com.ewerton.spring.data.repository;
 
 import br.com.ewerton.spring.data.domain.Funcionario;
 import br.com.ewerton.spring.data.domain.projecoes.FuncionarioProjecao;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface FuncionarioRepository extends PagingAndSortingRepository<Funcionario, Long> {
+public interface FuncionarioRepository extends PagingAndSortingRepository<Funcionario, Long>,
+        JpaSpecificationExecutor<Funcionario> {
 
     //Derived query
     List<Funcionario> findByNome(String nome);
